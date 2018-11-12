@@ -1,0 +1,24 @@
+{
+  "people": [
+    {
+      "name": "Brian",
+      "family": "Mitchell"
+    },
+    {
+      "name": "Freja",
+      "family": "Andersen"
+    }
+  ],
+  "exclusions": [
+    {
+      "type": "name",
+      "subject": "Brian",
+      "value": "Freja"
+    },
+    {
+      "type": "family",
+      "subject": "Andersen",
+      "value": "Brian"
+    }
+  ]
+}
