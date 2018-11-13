@@ -9,6 +9,9 @@ configure exclusions based on a person's name or family.
 
 `node index.js config.json`
 
+Add `--pretty` or `-p` after the filename to pretty print the matches in a
+table.
+
 ## Configuration
 
 The configuration has two arrays, `people` and `exclusions`.

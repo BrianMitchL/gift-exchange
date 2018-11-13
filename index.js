@@ -1,11 +1,16 @@
 const { sync } = require('load-json-file');
 const { knuthShuffle } = require('knuth-shuffle');
-const { matchesExclusion, validate } = require('./utils');
+const { matchesExclusion, validate, print } = require('./utils');
 
 // validate arguments
 if (process.argv.length < 3) {
   console.log('Usage: node ' + process.argv[1] + ' FILENAME');
   process.exit(1);
+}
+
+let prettyPrint = false;
+if (process.argv[3] && ['--pretty', '-p'].includes(process.argv[3])) {
+  prettyPrint = true;
 }
 
 /**
@@ -88,4 +93,4 @@ const calculate = (people, exclusions) => {
 
 const exclusions = config.exclusions || [];
 const pairs = calculate(knuthShuffle(config.people), knuthShuffle(exclusions));
-console.log(pairs);
+print(pairs, prettyPrint);

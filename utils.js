@@ -38,3 +38,17 @@ exports.validate = config => {
 exports.matchesExclusion = (exclusion, person, exclusionType) =>
   exclusion.type === exclusionType &&
   person[exclusionType] === exclusion.subject;
+
+/**
+ *
+ * @param {Person.name[][]} pairs - pairs of Person names
+ * @param {boolean} pretty - pretty print the pairs
+ * @return {void}
+ */
+exports.print = (pairs, pretty = false) => {
+  if (pretty) {
+    console.table(pairs.map(p => ({ from: p[0], to: p[1] })));
+  } else {
+    console.log(pairs);
+  }
+};
