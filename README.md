@@ -1,5 +1,7 @@
 # gift-exchange
 
+This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
+
 A command-line utility to generate pairs of names for a gift exchange.
 
 Matches will be given to any person in a different family, with the ability to

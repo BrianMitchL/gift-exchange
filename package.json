@@ -2,35 +2,48 @@
   "name": "gift-exchange",
   "version": "0.1.0",
   "description": "A command-line utility to generate pairs of names for a gift exchange.",
-  "keywords": ["gift", "exchange", "secret", "santa"],
-  "repository": {
-    "type" : "git",
-    "url" : "https://github.com/BrianMitchL/gift-exchange.git"
-  },
-  "main": "index.js",
-  "scripts": {
-    "prettier": "prettier --write *.{js,json,md}"
-  },
+  "keywords": [
+    "gift",
+    "exchange",
+    "secret",
+    "santa"
+  ],
   "author": "Brian Mitchell <bman4789@gmail.com>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BrianMitchL/gift-exchange.git"
+  },
+  "main": "dist/index.js",
+  "umd:main": "dist/gift-exchange.umd.production.js",
+  "module": "dist/gift-exchange.es.production.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "prettier": "prettier --write *.{js,json,md}"
+  },
   "dependencies": {
+    "arg": "^4.1.0",
     "knuth-shuffle": "^1.0.8",
     "load-json-file": "^6.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.13",
     "husky": "^2.3.0",
-    "lint-staged": "^8.1.7",
-    "prettier": "^1.17.1"
+    "prettier": "^1.17.1",
+    "pretty-quick": "^1.11.0",
+    "tsdx": "^0.5.11",
+    "tslib": "^1.9.3",
+    "typescript": "^3.4.5"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "pretty-quick --staged"
     }
-  },
-  "lint-staged": {
-    "*.{js,json,md}": [
-      "prettier --write",
-      "git add"
-    ]
   }
 }

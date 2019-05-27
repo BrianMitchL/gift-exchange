@@ -1,11 +1,8 @@
-/**
- * Validate the configuration file.
- * @param {Configuration} config - configuration object
- * @return {boolean} - configuration validity
- */
-exports.validate = config => {
+import { Configuration, Exclusion, Person } from './models';
+
+export const validate = (config: Configuration): boolean => {
   const prefix = 'Invalid JSON file: ';
-  if (!'people' in config) {
+  if (!('people' in config)) {
     console.error(`${prefix}There must be a people array.`);
     return false;
   }
@@ -29,23 +26,15 @@ exports.validate = config => {
   return true;
 };
 
-/**
- * @param {Exclusion} exclusion
- * @param {Person} person
- * @param {ExclusionType} exclusionType
- * @returns {boolean}
- */
-exports.matchesExclusion = (exclusion, person, exclusionType) =>
+export const matchesExclusion = (
+  exclusion: Exclusion,
+  person: Person,
+  exclusionType: Exclusion['type']
+): boolean =>
   exclusion.type === exclusionType &&
   person[exclusionType] === exclusion.subject;
 
-/**
- *
- * @param {Person.name[][]} pairs - pairs of Person names
- * @param {boolean} pretty - pretty print the pairs
- * @return {void}
- */
-exports.print = (pairs, pretty = false) => {
+export const print = (pairs: string[][], pretty = false): void => {
   if (pretty) {
     console.table(pairs.map(p => ({ from: p[0], to: p[1] })));
   } else {
