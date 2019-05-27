@@ -1,7 +1,11 @@
 {
   "name": "gift-exchange",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A command-line utility to generate pairs of names for a gift exchange.",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/BrianMitchL/gift-exchange.git"
+  },
   "main": "index.js",
   "scripts": {
     "prettier": "prettier --write *.{js,json,md}"
