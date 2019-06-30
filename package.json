@@ -15,8 +15,7 @@
     "url": "https://github.com/BrianMitchL/gift-exchange.git"
   },
   "main": "dist/index.js",
-  "umd:main": "dist/gift-exchange.umd.production.js",
-  "module": "dist/gift-exchange.es.production.js",
+  "module": "dist/gift-exchange.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
@@ -31,16 +30,16 @@
   "dependencies": {
     "arg": "^4.1.0",
     "knuth-shuffle": "^1.0.8",
-    "load-json-file": "^6.0.0"
+    "load-json-file": "^6.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "husky": "^2.3.0",
-    "prettier": "^1.17.1",
-    "pretty-quick": "^1.11.0",
-    "tsdx": "^0.5.11",
-    "tslib": "^1.9.3",
-    "typescript": "^3.4.5"
+    "@types/jest": "^24.0.15",
+    "husky": "^2.7.0",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "tsdx": "^0.7.2",
+    "tslib": "^1.10.0",
+    "typescript": "^3.5.2"
   },
   "husky": {
     "hooks": {
