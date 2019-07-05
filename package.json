@@ -25,7 +25,7 @@
     "build": "tsdx build",
     "test": "tsdx test",
     "test:coverage": "tsdx test --coverage",
-    "prettier": "prettier --write *.{js,json,md}"
+    "prettier": "prettier --write **/*.{ts,js,json,md}"
   },
   "dependencies": {
     "arg": "^4.1.0",
