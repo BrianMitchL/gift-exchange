@@ -1,6 +1,6 @@
 export interface Person {
   name: string;
-  family: string;
+  group?: string;
 }
 
 export interface Exclusion {
@@ -12,4 +12,12 @@ export interface Exclusion {
 export interface Configuration {
   people: Person[];
   exclusions?: Exclusion[];
+}
+
+export class DerangementError extends Error {
+  constructor(message?: string) {
+    super(message);
+    Object.setPrototypeOf(this, DerangementError.prototype);
+    this.name = 'DerangementError';
+  }
 }

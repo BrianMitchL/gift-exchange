@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "arg": "^4.1.0",
-    "knuth-shuffle": "^1.0.8",
     "load-json-file": "^6.1.0"
   },
   "devDependencies": {

@@ -1,9 +1,292 @@
-import * as Exports from '../src/utils';
+import '../to-be-valid-derangement';
+import { derange, isValid, personArrayOfLength } from '../src/utils';
+import { Exclusion, Person } from '../src/models';
 
 describe('utils', () => {
-  it('exports the right stuff', () => {
-    expect(Exports.matchesExclusion).toBeDefined();
-    expect(Exports.print).toBeDefined();
-    expect(Exports.validate).toBeDefined();
+  describe('isValid', () => {
+    it('marks empty arrays as valid', () => {
+      expect(isValid([], [])).toBeTruthy();
+    });
+
+    it('marks arrays of different lengths as invalid', () => {
+      expect(isValid([{ name: '1' }], [])).toBeFalsy();
+    });
+
+    it('marks an array with a length of one as invalid', () => {
+      expect(isValid([{ name: '1' }], [{ name: '1' }])).toBeFalsy();
+    });
+
+    it('marks as invalid when the same name has itself', () => {
+      expect(
+        isValid([{ name: '1' }, { name: '2' }], [{ name: '1' }, { name: '2' }])
+      ).toBeFalsy();
+    });
+
+    it('marks as invalid when the same group has itself', () => {
+      expect(
+        isValid(
+          [{ name: '1', group: 'a' }, { name: '2', group: 'a' }],
+          [{ name: '2', group: 'a' }, { name: '1', group: 'a' }]
+        )
+      ).toBeFalsy();
+    });
+
+    it('marks arrays with groups as valid', () => {
+      const input: Person[] = [
+        { name: '1', group: 'a' },
+        { name: '2', group: 'a' },
+        { name: '3', group: 'b' },
+        { name: '4', group: 'b' }
+      ];
+
+      const a: Person[] = [
+        { name: '3', group: 'b' },
+        { name: '4', group: 'b' },
+        { name: '1', group: 'a' },
+        { name: '2', group: 'a' }
+      ];
+      const b: Person[] = [
+        { name: '3', group: 'b' },
+        { name: '4', group: 'b' },
+        { name: '2', group: 'a' },
+        { name: '1', group: 'a' }
+      ];
+      const c: Person[] = [
+        { name: '4', group: 'b' },
+        { name: '3', group: 'b' },
+        { name: '1', group: 'a' },
+        { name: '2', group: 'a' }
+      ];
+      const d: Person[] = [
+        { name: '4', group: 'b' },
+        { name: '3', group: 'b' },
+        { name: '2', group: 'a' },
+        { name: '1', group: 'a' }
+      ];
+      expect(isValid(input, a)).toBeTruthy();
+      expect(isValid(input, b)).toBeTruthy();
+      expect(isValid(input, c)).toBeTruthy();
+      expect(isValid(input, d)).toBeTruthy();
+    });
+
+    it('treats a mix of groups being defined correctly', () => {
+      const input: Person[] = [
+        { name: '1', group: 'a' },
+        { name: '2', group: 'a' },
+        { name: '3' },
+        { name: '4' }
+      ];
+
+      const a: Person[] = [
+        { name: '3' },
+        { name: '4' },
+        { name: '1', group: 'a' },
+        { name: '2', group: 'a' }
+      ];
+      const b: Person[] = [
+        { name: '3' },
+        { name: '4' },
+        { name: '2', group: 'a' },
+        { name: '1', group: 'a' }
+      ];
+      const c: Person[] = [
+        { name: '4' },
+        { name: '3' },
+        { name: '1', group: 'a' },
+        { name: '2', group: 'a' }
+      ];
+      const d: Person[] = [
+        { name: '4' },
+        { name: '3' },
+        { name: '2', group: 'a' },
+        { name: '1', group: 'a' }
+      ];
+      expect(isValid(input, a)).toBeTruthy();
+      expect(isValid(input, b)).toBeTruthy();
+      expect(isValid(input, c)).toBeTruthy();
+      expect(isValid(input, d)).toBeTruthy();
+    });
+
+    it('validates complete three person array', () => {
+      const input = personArrayOfLength(3);
+
+      const a: Person[] = [{ name: '1' }, { name: '2' }, { name: '3' }];
+      const b: Person[] = [{ name: '1' }, { name: '3' }, { name: '2' }];
+      const c: Person[] = [{ name: '2' }, { name: '1' }, { name: '3' }];
+      const d: Person[] = [{ name: '2' }, { name: '3' }, { name: '1' }];
+      const e: Person[] = [{ name: '3' }, { name: '1' }, { name: '2' }];
+      const f: Person[] = [{ name: '3' }, { name: '2' }, { name: '1' }];
+      expect(isValid(input, a)).toBeFalsy();
+      expect(isValid(input, b)).toBeFalsy();
+      expect(isValid(input, c)).toBeFalsy();
+      expect(isValid(input, d)).toBeTruthy();
+      expect(isValid(input, e)).toBeTruthy();
+      expect(isValid(input, f)).toBeFalsy();
+    });
+
+    describe('exclusions', () => {
+      it('validates that p.name:1 cannot match p.name:2', () => {
+        const input = personArrayOfLength(3);
+        const exclusions: Exclusion[] = [
+          {
+            type: 'name',
+            subject: '1', // a person with the name (set above in `type`) of '1'
+            value: '2' // cannot match this person.name
+          }
+        ];
+
+        const a: Person[] = [{ name: '1' }, { name: '2' }, { name: '3' }];
+        const b: Person[] = [{ name: '1' }, { name: '3' }, { name: '2' }];
+        const c: Person[] = [{ name: '2' }, { name: '1' }, { name: '3' }];
+        const d: Person[] = [{ name: '2' }, { name: '3' }, { name: '1' }];
+        const e: Person[] = [{ name: '3' }, { name: '1' }, { name: '2' }];
+        const f: Person[] = [{ name: '3' }, { name: '2' }, { name: '1' }];
+        expect(isValid(input, a, exclusions)).toBeFalsy();
+        expect(isValid(input, b, exclusions)).toBeFalsy();
+        expect(isValid(input, c, exclusions)).toBeFalsy();
+        expect(isValid(input, d, exclusions)).toBeFalsy();
+        expect(isValid(input, e, exclusions)).toBeTruthy();
+        expect(isValid(input, f, exclusions)).toBeFalsy();
+      });
+
+      it('validates that p.name:2 cannot match p.name:1', () => {
+        const input = personArrayOfLength(3);
+        const exclusions: Exclusion[] = [
+          {
+            type: 'name',
+            subject: '2', // a person with the name (set above in `type`) of '2'
+            value: '1' // cannot match this person.name
+          }
+        ];
+
+        const a: Person[] = [{ name: '1' }, { name: '2' }, { name: '3' }];
+        const b: Person[] = [{ name: '1' }, { name: '3' }, { name: '2' }];
+        const c: Person[] = [{ name: '2' }, { name: '1' }, { name: '3' }];
+        const d: Person[] = [{ name: '2' }, { name: '3' }, { name: '1' }];
+        const e: Person[] = [{ name: '3' }, { name: '1' }, { name: '2' }];
+        const f: Person[] = [{ name: '3' }, { name: '2' }, { name: '1' }];
+        expect(isValid(input, a, exclusions)).toBeFalsy();
+        expect(isValid(input, b, exclusions)).toBeFalsy();
+        expect(isValid(input, c, exclusions)).toBeFalsy();
+        expect(isValid(input, d, exclusions)).toBeTruthy();
+        expect(isValid(input, e, exclusions)).toBeFalsy();
+        expect(isValid(input, f, exclusions)).toBeFalsy();
+      });
+
+      it('validates that p.group:a cannot match p.name:1', () => {
+        const input: Person[] = [
+          { name: '1' },
+          { name: '2' },
+          { name: '3', group: 'a' }
+        ];
+        const exclusions: Exclusion[] = [
+          {
+            type: 'group',
+            subject: 'a', // a person with the group (set above in `type`) of 'a'
+            value: '1' // cannot match this person.name
+          }
+        ];
+
+        const a: Person[] = [
+          { name: '1' },
+          { name: '2' },
+          { name: '3', group: 'a' }
+        ];
+        const b: Person[] = [
+          { name: '1' },
+          { name: '3', group: 'a' },
+          { name: '2' }
+        ];
+        const c: Person[] = [
+          { name: '2' },
+          { name: '1' },
+          { name: '3', group: 'a' }
+        ];
+        const d: Person[] = [
+          { name: '2' },
+          { name: '3', group: 'a' },
+          { name: '1' }
+        ];
+        const e: Person[] = [
+          { name: '3', group: 'a' },
+          { name: '1' },
+          { name: '2' }
+        ];
+        const f: Person[] = [
+          { name: '3', group: 'a' },
+          { name: '2' },
+          { name: '1' }
+        ];
+        expect(isValid(input, a, exclusions)).toBeFalsy();
+        expect(isValid(input, b, exclusions)).toBeFalsy();
+        expect(isValid(input, c, exclusions)).toBeFalsy();
+        expect(isValid(input, d, exclusions)).toBeFalsy();
+        expect(isValid(input, e, exclusions)).toBeTruthy();
+        expect(isValid(input, f, exclusions)).toBeFalsy();
+      });
+    });
+  });
+
+  describe('derange', () => {
+    it('returns empty array when given an empty array', () => {
+      expect(derange([])).toEqual([]);
+    });
+
+    it('returns an equal array when given an array of length one', () => {
+      expect(derange([{ name: '1' }])).toEqual([{ name: '1' }]);
+    });
+
+    it('deranges a list of 3 people', () => {
+      const input = personArrayOfLength(3);
+      expect(derange(input)).toBeValidDerangement(input);
+    });
+
+    it('deranges a list of 500 people', () => {
+      const input = personArrayOfLength(500);
+      expect(derange(input)).toBeValidDerangement(input);
+    });
+
+    it('deranges with groups', () => {
+      const input: Person[] = [
+        { name: '1', group: 'a' },
+        { name: '2', group: 'a' },
+        { name: '3', group: 'b' },
+        { name: '4', group: 'b' }
+      ];
+
+      expect(derange(input)).toBeValidDerangement(input);
+    });
+
+    it('throws an error when an impossible combination is received', () => {
+      const input = personArrayOfLength(3);
+      const exclusions: Exclusion[] = [
+        {
+          type: 'name',
+          subject: '2',
+          value: '1'
+        },
+        {
+          type: 'name',
+          subject: '1',
+          value: '2'
+        }
+      ];
+
+      expect(() => derange(input, exclusions)).toThrowError();
+      expect(() => derange(input, exclusions)).not.toBeValidDerangement(input);
+    });
+
+    it('deranges with a name exclusion', () => {
+      const input = personArrayOfLength(3);
+      const exclusions: Exclusion[] = [
+        {
+          type: 'name',
+          subject: '2',
+          value: '1'
+        }
+      ];
+
+      expect(derange(input, exclusions)).toBeValidDerangement(input);
+    });
   });
 });
