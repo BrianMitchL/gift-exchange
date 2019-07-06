@@ -3,7 +3,7 @@ import { derange, validateMatches } from '../src/derange';
 import { personArrayOfLength } from '../src/utils';
 import { Exclusion, Person } from '../src/models';
 
-describe('utils', () => {
+describe('derange', () => {
   describe('validateMatches', () => {
     it('marks empty arrays as valid', () => {
       expect(validateMatches([], [])).toBeTruthy();
