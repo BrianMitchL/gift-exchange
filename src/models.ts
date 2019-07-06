@@ -14,6 +14,11 @@ export interface Configuration {
   exclusions?: Exclusion[];
 }
 
+export interface Validation {
+  errors: string[];
+  valid: boolean;
+}
+
 export class DerangementError extends Error {
   constructor(message?: string) {
     super(message);

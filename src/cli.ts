@@ -17,7 +17,11 @@ if (process.argv[3] && ['--pretty', '-p'].includes(process.argv[3])) {
 // get config
 const config: Configuration = sync(process.argv[2]);
 // validate configuration
-if (!validateConfiguration(config)) process.exit(1);
+const validation = validateConfiguration(config);
+if (!validation.valid) {
+  console.error(validation.errors);
+  process.exit(1);
+}
 
 const exclusions: Exclusion[] = config.exclusions || [];
 calculate(config.people, exclusions)
