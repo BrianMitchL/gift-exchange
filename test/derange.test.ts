@@ -1,30 +1,34 @@
 import '../to-be-valid-derangement';
-import { derange, isValid, personArrayOfLength } from '../src/utils';
+import { derange, validateMatches } from '../src/derange';
+import { personArrayOfLength } from '../src/utils';
 import { Exclusion, Person } from '../src/models';
 
 describe('utils', () => {
-  describe('isValid', () => {
+  describe('validateMatches', () => {
     it('marks empty arrays as valid', () => {
-      expect(isValid([], [])).toBeTruthy();
+      expect(validateMatches([], [])).toBeTruthy();
     });
 
     it('marks arrays of different lengths as invalid', () => {
-      expect(isValid([{ name: '1' }], [])).toBeFalsy();
+      expect(validateMatches([{ name: '1' }], [])).toBeFalsy();
     });
 
     it('marks an array with a length of one as invalid', () => {
-      expect(isValid([{ name: '1' }], [{ name: '1' }])).toBeFalsy();
+      expect(validateMatches([{ name: '1' }], [{ name: '1' }])).toBeFalsy();
     });
 
     it('marks as invalid when the same name has itself', () => {
       expect(
-        isValid([{ name: '1' }, { name: '2' }], [{ name: '1' }, { name: '2' }])
+        validateMatches(
+          [{ name: '1' }, { name: '2' }],
+          [{ name: '1' }, { name: '2' }]
+        )
       ).toBeFalsy();
     });
 
     it('marks as invalid when the same group has itself', () => {
       expect(
-        isValid(
+        validateMatches(
           [{ name: '1', group: 'a' }, { name: '2', group: 'a' }],
           [{ name: '2', group: 'a' }, { name: '1', group: 'a' }]
         )
@@ -63,10 +67,10 @@ describe('utils', () => {
         { name: '2', group: 'a' },
         { name: '1', group: 'a' }
       ];
-      expect(isValid(input, a)).toBeTruthy();
-      expect(isValid(input, b)).toBeTruthy();
-      expect(isValid(input, c)).toBeTruthy();
-      expect(isValid(input, d)).toBeTruthy();
+      expect(validateMatches(input, a)).toBeTruthy();
+      expect(validateMatches(input, b)).toBeTruthy();
+      expect(validateMatches(input, c)).toBeTruthy();
+      expect(validateMatches(input, d)).toBeTruthy();
     });
 
     it('treats a mix of groups being defined correctly', () => {
@@ -101,10 +105,10 @@ describe('utils', () => {
         { name: '2', group: 'a' },
         { name: '1', group: 'a' }
       ];
-      expect(isValid(input, a)).toBeTruthy();
-      expect(isValid(input, b)).toBeTruthy();
-      expect(isValid(input, c)).toBeTruthy();
-      expect(isValid(input, d)).toBeTruthy();
+      expect(validateMatches(input, a)).toBeTruthy();
+      expect(validateMatches(input, b)).toBeTruthy();
+      expect(validateMatches(input, c)).toBeTruthy();
+      expect(validateMatches(input, d)).toBeTruthy();
     });
 
     it('validates complete three person array', () => {
@@ -116,12 +120,12 @@ describe('utils', () => {
       const d: Person[] = [{ name: '2' }, { name: '3' }, { name: '1' }];
       const e: Person[] = [{ name: '3' }, { name: '1' }, { name: '2' }];
       const f: Person[] = [{ name: '3' }, { name: '2' }, { name: '1' }];
-      expect(isValid(input, a)).toBeFalsy();
-      expect(isValid(input, b)).toBeFalsy();
-      expect(isValid(input, c)).toBeFalsy();
-      expect(isValid(input, d)).toBeTruthy();
-      expect(isValid(input, e)).toBeTruthy();
-      expect(isValid(input, f)).toBeFalsy();
+      expect(validateMatches(input, a)).toBeFalsy();
+      expect(validateMatches(input, b)).toBeFalsy();
+      expect(validateMatches(input, c)).toBeFalsy();
+      expect(validateMatches(input, d)).toBeTruthy();
+      expect(validateMatches(input, e)).toBeTruthy();
+      expect(validateMatches(input, f)).toBeFalsy();
     });
 
     describe('exclusions', () => {
@@ -141,12 +145,12 @@ describe('utils', () => {
         const d: Person[] = [{ name: '2' }, { name: '3' }, { name: '1' }];
         const e: Person[] = [{ name: '3' }, { name: '1' }, { name: '2' }];
         const f: Person[] = [{ name: '3' }, { name: '2' }, { name: '1' }];
-        expect(isValid(input, a, exclusions)).toBeFalsy();
-        expect(isValid(input, b, exclusions)).toBeFalsy();
-        expect(isValid(input, c, exclusions)).toBeFalsy();
-        expect(isValid(input, d, exclusions)).toBeFalsy();
-        expect(isValid(input, e, exclusions)).toBeTruthy();
-        expect(isValid(input, f, exclusions)).toBeFalsy();
+        expect(validateMatches(input, a, exclusions)).toBeFalsy();
+        expect(validateMatches(input, b, exclusions)).toBeFalsy();
+        expect(validateMatches(input, c, exclusions)).toBeFalsy();
+        expect(validateMatches(input, d, exclusions)).toBeFalsy();
+        expect(validateMatches(input, e, exclusions)).toBeTruthy();
+        expect(validateMatches(input, f, exclusions)).toBeFalsy();
       });
 
       it('validates that p.name:2 cannot match p.name:1', () => {
@@ -165,12 +169,12 @@ describe('utils', () => {
         const d: Person[] = [{ name: '2' }, { name: '3' }, { name: '1' }];
         const e: Person[] = [{ name: '3' }, { name: '1' }, { name: '2' }];
         const f: Person[] = [{ name: '3' }, { name: '2' }, { name: '1' }];
-        expect(isValid(input, a, exclusions)).toBeFalsy();
-        expect(isValid(input, b, exclusions)).toBeFalsy();
-        expect(isValid(input, c, exclusions)).toBeFalsy();
-        expect(isValid(input, d, exclusions)).toBeTruthy();
-        expect(isValid(input, e, exclusions)).toBeFalsy();
-        expect(isValid(input, f, exclusions)).toBeFalsy();
+        expect(validateMatches(input, a, exclusions)).toBeFalsy();
+        expect(validateMatches(input, b, exclusions)).toBeFalsy();
+        expect(validateMatches(input, c, exclusions)).toBeFalsy();
+        expect(validateMatches(input, d, exclusions)).toBeTruthy();
+        expect(validateMatches(input, e, exclusions)).toBeFalsy();
+        expect(validateMatches(input, f, exclusions)).toBeFalsy();
       });
 
       it('validates that p.group:a cannot match p.name:1', () => {
@@ -217,12 +221,12 @@ describe('utils', () => {
           { name: '2' },
           { name: '1' }
         ];
-        expect(isValid(input, a, exclusions)).toBeFalsy();
-        expect(isValid(input, b, exclusions)).toBeFalsy();
-        expect(isValid(input, c, exclusions)).toBeFalsy();
-        expect(isValid(input, d, exclusions)).toBeFalsy();
-        expect(isValid(input, e, exclusions)).toBeTruthy();
-        expect(isValid(input, f, exclusions)).toBeFalsy();
+        expect(validateMatches(input, a, exclusions)).toBeFalsy();
+        expect(validateMatches(input, b, exclusions)).toBeFalsy();
+        expect(validateMatches(input, c, exclusions)).toBeFalsy();
+        expect(validateMatches(input, d, exclusions)).toBeFalsy();
+        expect(validateMatches(input, e, exclusions)).toBeTruthy();
+        expect(validateMatches(input, f, exclusions)).toBeFalsy();
       });
     });
   });

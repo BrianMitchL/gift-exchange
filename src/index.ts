@@ -1,5 +1,5 @@
 import { Exclusion, Person } from './models';
-import { derange } from './utils';
+import { derange } from './derange';
 
 export const calculate = async (
   people: Person[],
@@ -13,3 +13,5 @@ export const calculate = async (
     }
   });
 };
+
+export { derange };
