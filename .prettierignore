@@ -1,2 +1,5 @@
 package.json
 package-lock.json
+dist
+.rts2*
+coverage

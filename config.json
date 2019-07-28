@@ -2,11 +2,11 @@
   "people": [
     {
       "name": "Brian",
-      "family": "Mitchell"
+      "group": "Mitchell"
     },
     {
       "name": "Freja",
-      "family": "Andersen"
+      "group": "Andersen"
     }
   ],
   "exclusions": [
@@ -16,7 +16,7 @@
       "value": "Freja"
     },
     {
-      "type": "family",
+      "type": "group",
       "subject": "Andersen",
       "value": "Brian"
     }

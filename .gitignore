@@ -2,3 +2,6 @@
 .idea
 .DS_Store
 node_modules
+.rts2*
+dist
+coverage
