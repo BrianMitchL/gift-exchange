@@ -38,7 +38,7 @@ const people: Person[] = [
 
 ### `calculate`
 
-`calculate` returns a Promise that resolves with a new array of people or
+This returns a Promise that resolves with a new array of people or
 rejects with a `DerangementError`. This error is thrown if the matching
 algorithm fails to find a valid match after 1 second, indicating that an
 impossible combination of people and exclusions was provided.
@@ -66,7 +66,7 @@ calculate(people).then(matches => {
 
 ### `calculateSync`
 
-`calculateSync` returns a new array of people or throws a `DerangementError` if
+This returns a new array of people or throws a `DerangementError` if
 the matching algorithm fails to find a valid match after 1 second, indicating
 that an impossible combinations of people and exclusions was provided.
 
