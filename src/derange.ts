@@ -20,7 +20,7 @@ export const validateMatches: ValidateMatches = (a, b, exclusions = []) => {
 
     return (
       exclusions
-        // filter to exclusions to subjects that match pA
+        // filter to exclusions of subjects that match pA
         .filter(exclusion => pA[exclusion.type] === exclusion.subject)
         // reject pB if the name equals the exclusion value
         .every(exclusion => pB.name !== exclusion.value)
@@ -36,8 +36,8 @@ export const derange = (
     return people.slice(0);
   }
 
-  let buffer1 = [];
-  let buffer2 = [];
+  let buffer1: Person[] = [];
+  let buffer2: Person[] = [];
 
   // https://www.youtube.com/watch?v=5kC5k5QBqcc
   const shuffleAndSlide = () => {
