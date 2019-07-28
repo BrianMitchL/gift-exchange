@@ -49,10 +49,10 @@ export const derange = (
     buffer2.push(buffer2.shift());
   };
 
-  let now = new Date();
+  const startTime = Date.now();
   const testDerangement: ValidateMatches = (...args): boolean => {
     // prevent infinite loops when no combination is found
-    if (new Date().getTime() - now.getTime() > 1e3)
+    if (Date.now() - startTime > 1e3)
       throw new DerangementError('No derangement found');
     return validateMatches(...args);
   };
