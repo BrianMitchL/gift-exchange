@@ -3,6 +3,10 @@ import { Configuration, Person, Validation } from './models';
 export const personArrayOfLength = (length: number): Person[] =>
   new Array(length).fill(true).map((v, i) => ({ name: '' + (i + 1) }));
 
+// this isn't used at the moment, but I spent a bunch of time writing it, so
+// maybe this can be used later. Not importing/bundling for now to keep
+// the bundle size small.
+// TLDR: felt cute, might delete later
 export const validateConfiguration = (config: Configuration): Validation => {
   const errors: string[] = [];
 
@@ -58,15 +62,6 @@ export const validateConfiguration = (config: Configuration): Validation => {
     errors,
     valid: errors.length === 0
   };
-};
-
-export const print = (a: Person[], b: Person[], pretty = false): void => {
-  const pairs = a.map((pA, i) => ({ from: pA.name, to: b[i].name }));
-  if (pretty) {
-    console.table(pairs);
-  } else {
-    console.log(pairs);
-  }
 };
 
 export const shuffle = (array: any[]) => {

@@ -27,10 +27,7 @@
     "test:coverage": "tsdx test --coverage",
     "prettier": "prettier --write **/*.{ts,js,json,md}"
   },
-  "dependencies": {
-    "arg": "^4.1.1",
-    "load-json-file": "^6.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^24.0.15",
     "husky": "^3.0.1",
