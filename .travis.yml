@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - '10'
+  - '12'
+install: node ci
+script:
+  - npm run build
+  - npm run test:coverage
+branches:
+  only:
+    - master
