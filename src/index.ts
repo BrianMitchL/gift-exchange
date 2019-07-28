@@ -1,2 +1,2 @@
-export { calculate, derange } from './derange';
-export { DerangementError } from './models';
+export { calculate, derange as calculateSync } from './derange';
+export { DerangementError, Person, Exclusion } from './models';
