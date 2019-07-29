@@ -56,8 +56,8 @@ const people: Person[] = [
 ];
 
 calculate(people).then(matches => {
-  const pairs: { from: string; to: string }[] = people.map((pA, i) => ({
-    from: pA.name,
+  const pairs: { from: string; to: string }[] = people.map((person, i) => ({
+    from: person.name,
     to: matches[i].name
   }));
   console.table(pairs);
@@ -84,8 +84,8 @@ const people: Person[] = [
 
 try {
   const matches = calculateSync(people);
-  const pairs: { from: string; to: string }[] = people.map((pA, i) => ({
-    from: pA.name,
+  const pairs: { from: string; to: string }[] = people.map((person, i) => ({
+    from: person.name,
     to: matches[i].name
   }));
   console.table(pairs);
