@@ -1,4 +1,4 @@
-# gift-exchange [![Build Status](https://travis-ci.org/BrianMitchL/gift-exchange.svg?branch=master)](https://travis-ci.org/BrianMitchL/gift-exchange) [![Coverage Status](https://coveralls.io/repos/github/BrianMitchL/gift-exchange/badge.svg?branch=master)](https://coveralls.io/github/BrianMitchL/gift-exchange?branch=master)
+# gift-exchange [![npm](https://img.shields.io/npm/v/gift-exchange)](https://www.npmjs.com/package/gift-exchange) [![Build Status](https://travis-ci.org/BrianMitchL/gift-exchange.svg?branch=master)](https://travis-ci.org/BrianMitchL/gift-exchange) [![Coverage Status](https://coveralls.io/repos/github/BrianMitchL/gift-exchange/badge.svg?branch=master)](https://coveralls.io/github/BrianMitchL/gift-exchange?branch=master)
 
 An algorithm to generate unbiased pairs of names for a gift exchange or secret
 santa.
