@@ -25,21 +25,23 @@
     "build": "tsdx build",
     "test": "tsdx test",
     "test:coverage": "tsdx test --coverage",
-    "prettier": "prettier --write **/*.{ts,js,json,md}"
+    "lint": "tsdx lint --fix",
+    "prepare": "tsdx build"
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/jest": "^24.0.15",
-    "husky": "^3.0.1",
-    "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.1",
-    "tsdx": "^0.7.2",
-    "tslib": "^1.10.0",
-    "typescript": "^3.5.3"
+    "@types/jest": "^24.9.1",
+    "husky": "^4.2.3",
+    "tsdx": "^0.13.1",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "tsdx lint"
     }
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

@@ -1,4 +1,5 @@
-import '../to-be-valid-derangement';
+// @ts-ignore
+import './to-be-valid-derangement';
 import { calculate, derange, validateMatches } from '../src/derange';
 import { personArrayOfLength } from '../src/utils';
 import { DerangementError, Exclusion, Person } from '../src/models';
@@ -29,8 +30,14 @@ describe('derange', () => {
     it('marks as invalid when the same group has itself', () => {
       expect(
         validateMatches(
-          [{ name: '1', group: 'a' }, { name: '2', group: 'a' }],
-          [{ name: '2', group: 'a' }, { name: '1', group: 'a' }]
+          [
+            { name: '1', group: 'a' },
+            { name: '2', group: 'a' }
+          ],
+          [
+            { name: '2', group: 'a' },
+            { name: '1', group: 'a' }
+          ]
         )
       ).toBeFalsy();
     });

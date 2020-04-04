@@ -1,7 +1,7 @@
 import { Configuration, Person, Validation } from './models';
 
 export const personArrayOfLength = (length: number): Person[] =>
-  new Array(length).fill(true).map((v, i) => ({ name: '' + (i + 1) }));
+  new Array(length).fill(true).map((_, i) => ({ name: '' + (i + 1) }));
 
 // this isn't used at the moment, but I spent a bunch of time writing it, so
 // maybe this can be used later. Not importing/bundling for now to keep
