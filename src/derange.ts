@@ -46,7 +46,7 @@ export const derange = (
     buffer2 = shuffled.slice(0);
 
     // slide each element over by one on buffer2
-    buffer2.push(buffer2.shift());
+    buffer2.push(buffer2.shift()!);
   };
 
   const startTime = Date.now();
