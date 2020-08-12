@@ -9,16 +9,6 @@ export interface Exclusion {
   value: string;
 }
 
-export interface Configuration {
-  people: Person[];
-  exclusions?: Exclusion[];
-}
-
-export interface Validation {
-  errors: string[];
-  valid: boolean;
-}
-
 export class DerangementError extends Error {
   constructor(message?: string) {
     super(message);
