@@ -3,7 +3,7 @@ import { Person } from './models';
 export const personArrayOfLength = (length: number): Person[] =>
   new Array(length).fill(true).map((_, i) => ({ name: '' + (i + 1) }));
 
-export const shuffle = (array: any[]) => {
+export const shuffle = <T = any>(array: T[]) => {
   let i = array.length;
   let j;
 

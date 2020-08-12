@@ -7,7 +7,11 @@ export type ValidateMatches = (
   exclusions?: Exclusion[]
 ) => boolean;
 
-export const validateMatches: ValidateMatches = (a, b, exclusions = []) => {
+export const validateMatches: ValidateMatches = (
+  a,
+  b,
+  exclusions = [] as Exclusion[]
+) => {
   if (a.length !== b.length) return false;
 
   // pA - person a, pB - person b
