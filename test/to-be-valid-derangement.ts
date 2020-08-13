@@ -72,7 +72,10 @@ expect.extend({
 
           return exclusions
             .filter(exclusion => pA[exclusion.type] === exclusion.subject)
-            .some(exclusion => pB.name === exclusion.value);
+            .some(
+              exclusion =>
+                pB[exclusion.excludedType] !== exclusion.excludedSubject
+            );
         })
       ) {
         return {

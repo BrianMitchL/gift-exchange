@@ -358,6 +358,21 @@ describe('derange', () => {
 
       expect(derange(input, exclusions)).toBeValidDerangement(input);
     });
+
+    it('deranges with a group exclusion', () => {
+      const input = personArrayOfLength(3);
+      input[0].group = 'a';
+      const exclusions: Exclusion[] = [
+        {
+          type: 'name',
+          subject: '2',
+          excludedType: 'group',
+          excludedSubject: 'a'
+        }
+      ];
+
+      expect(derange(input, exclusions)).toBeValidDerangement(input);
+    });
   });
 
   describe('calculate', () => {
