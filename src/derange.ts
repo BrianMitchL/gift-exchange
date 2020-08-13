@@ -1,5 +1,4 @@
-import { DerangementError, Exclusion, Person } from './models';
-import { shuffle } from './utils';
+import { DerangementError, Exclusion, Person, shuffle } from './utils';
 
 export type ValidateMatches = (
   a: Person[],
@@ -7,7 +6,11 @@ export type ValidateMatches = (
   exclusions?: Exclusion[]
 ) => boolean;
 
-export const validateMatches: ValidateMatches = (a, b, exclusions = []) => {
+export const validateMatches: ValidateMatches = (
+  a,
+  b,
+  exclusions = [] as Exclusion[]
+) => {
   if (a.length !== b.length) return false;
 
   // pA - person a, pB - person b
@@ -22,8 +25,10 @@ export const validateMatches: ValidateMatches = (a, b, exclusions = []) => {
       exclusions
         // filter to exclusions of subjects that match pA
         .filter(exclusion => pA[exclusion.type] === exclusion.subject)
-        // reject pB if the name equals the exclusion value
-        .every(exclusion => pB.name !== exclusion.value)
+        // reject pB if they have an excludedType of excludedValue
+        .every(
+          exclusion => pB[exclusion.excludedType] !== exclusion.excludedSubject
+        )
     );
   });
 };

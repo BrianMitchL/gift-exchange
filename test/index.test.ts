@@ -1,4 +1,4 @@
-import * as Exports from '../src/index';
+import * as Exports from '../src';
 
 describe('index', () => {
   it('exports the right stuff', () => {

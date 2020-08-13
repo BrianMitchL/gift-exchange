@@ -68,7 +68,7 @@ calculate(people).then(matches => {
 
 This returns a new array of people or throws a `DerangementError` if
 the matching algorithm fails to find a valid match after 1 second, indicating
-that an impossible combinations of people and exclusions was provided.
+that an impossible combination of people and exclusions was provided.
 
 ```typescript
 import { calculateSync, Person } from 'gift-exchange';
@@ -100,11 +100,15 @@ The `calculate` and `calculateSync` functions can also be called with a second
 argument `exclusions`. This builds upon the concept that no person can match
 another in the same group.
 
-There are two exclusion types, one of type `name` and one of type
+Exclusions are single directional. Use the `type` and `subject` properties to
+select a base Person or group of Persons. Then select an `excludedType` and
+`excludedSubject` to select the Person or group of Persons that the previously
+selected Person/group of Persons cannot be matched with.
+
+The There are two exclusion types, one of type `name` and one of type
 `group`. The `type` refers to a key on the `Person` interface. The `subject` is
 a selector for any number of people that have the given `type` equal to the
-`subject`. The `value` always refers to a `Person`s `name` that the
-`type` `subject` pair cannot match with.
+`subject`.
 
 ```typescript
 import { Person, Exclusion } from 'gift-exchange';
@@ -125,14 +129,24 @@ const exclusions: Exclusion[] = [
   {
     type: 'name',
     subject: 'Brian',
-    value: 'Freja'
+    excludedType: 'name',
+    excludedSubject: 'Freja'
   },
   // anyone with the group "Andersen" cannot be assigned to a person with the
   // name "Brian"
   {
     type: 'group',
     subject: 'Andersen',
-    value: 'Brian'
+    excludedType: 'name',
+    excludedSubject: 'Brian'
+  },
+  // anyone with the group "Andersen" cannot be assigned to a person with the
+  // group "Mitchell"
+  {
+    type: 'group',
+    subject: 'Andersen',
+    excludedType: 'group',
+    excludedSubject: 'Mitchell'
   }
 ];
 ```
@@ -144,7 +158,7 @@ described in Numberphile video
 [The Problems with Secret Santa](https://www.youtube.com/watch?v=5kC5k5QBqcc&t=484).
 This type of problem is called a
 [derangement](https://en.wikipedia.org/wiki/Derangement). This approach gives
-each person an equal chance for being matched with any other person. A
-derangement is made, and then checked for the same group followed by each
+each person an equal chance for being matched with any other person. We make a
+derangement, then check for the same group followed by each
 exclusion in the list of exclusions. If the derangement does not satisfy each
-exclusion rule, the list of people is shuffled and a new derangement is made.
+exclusion rule, then we shuffle the list of people and make a new derangement.
