@@ -1,8 +1,12 @@
 // @ts-ignore
 import './to-be-valid-derangement';
 import { calculate, derange, validateMatches } from '../src/derange';
-import { personArrayOfLength } from '../src/utils';
-import { DerangementError, Exclusion, Person } from '../src/models';
+import {
+  DerangementError,
+  Exclusion,
+  Person,
+  personArrayOfLength
+} from '../src/utils';
 
 describe('derange', () => {
   describe('validateMatches', () => {

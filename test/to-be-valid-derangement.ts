@@ -1,4 +1,4 @@
-import { Exclusion, Person } from '../src/models';
+import { Exclusion, Person } from '../src/utils';
 
 declare global {
   namespace jest {

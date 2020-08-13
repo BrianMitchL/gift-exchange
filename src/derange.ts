@@ -1,5 +1,4 @@
-import { DerangementError, Exclusion, Person } from './models';
-import { shuffle } from './utils';
+import { DerangementError, Exclusion, Person, shuffle } from './utils';
 
 export type ValidateMatches = (
   a: Person[],
