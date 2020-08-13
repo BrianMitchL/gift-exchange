@@ -1,4 +1,4 @@
-import { personArrayOfLength, shuffle } from '../src/utils';
+import { DerangementError, personArrayOfLength, shuffle } from '../src/utils';
 
 describe('utils', () => {
   describe('personArrayOfLength', () => {
@@ -23,6 +23,24 @@ describe('utils', () => {
       const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       const newArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       expect(shuffle(arr)).not.toEqual(newArr);
+    });
+  });
+
+  describe('DerangementError', () => {
+    it('is an instanceof Error and DerangementError', () => {
+      const error = new DerangementError();
+      expect(error instanceof Error).toBeTruthy();
+      expect(error instanceof DerangementError).toBeTruthy();
+    });
+
+    it('has the name "DerangementError"', () => {
+      const error = new DerangementError();
+      expect(error.name).toBe('DerangementError');
+    });
+
+    it('formats messages', () => {
+      const error = new DerangementError('oh no!');
+      expect(error.toString()).toBe('DerangementError: oh no!');
     });
   });
 });

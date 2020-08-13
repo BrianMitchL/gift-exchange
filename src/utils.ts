@@ -52,9 +52,9 @@ export const shuffle = <T = any>(array: T[]) => {
 };
 
 export class DerangementError extends Error {
-  constructor(message?: string) {
-    super(message);
-    Object.setPrototypeOf(this, DerangementError.prototype);
+  constructor(...params: Parameters<ErrorConstructor>) {
+    super(...params);
+    Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'DerangementError';
   }
 }
