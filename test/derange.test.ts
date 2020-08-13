@@ -142,7 +142,8 @@ describe('derange', () => {
           {
             type: 'name',
             subject: '1', // a person with the name (set above in `type`) of '1'
-            value: '2' // cannot match this person.name
+            excludedType: 'name',
+            excludedSubject: '2' // cannot match this person.name
           }
         ];
 
@@ -166,7 +167,8 @@ describe('derange', () => {
           {
             type: 'name',
             subject: '2', // a person with the name (set above in `type`) of '2'
-            value: '1' // cannot match this person.name
+            excludedType: 'name',
+            excludedSubject: '1' // cannot match this person.name
           }
         ];
 
@@ -194,7 +196,8 @@ describe('derange', () => {
           {
             type: 'group',
             subject: 'a', // a person with the group (set above in `type`) of 'a'
-            value: '1' // cannot match this person.name
+            excludedType: 'name',
+            excludedSubject: '1' // cannot match this person.name
           }
         ];
 
@@ -233,6 +236,59 @@ describe('derange', () => {
         expect(validateMatches(input, c, exclusions)).toBeFalsy();
         expect(validateMatches(input, d, exclusions)).toBeFalsy();
         expect(validateMatches(input, e, exclusions)).toBeTruthy();
+        expect(validateMatches(input, f, exclusions)).toBeFalsy();
+      });
+
+      it('validates that p.name:1 cannot match p.group:a', () => {
+        const input: Person[] = [
+          { name: '1' },
+          { name: '2' },
+          { name: '3', group: 'a' }
+        ];
+        const exclusions: Exclusion[] = [
+          {
+            type: 'name',
+            subject: '1', // a person with the name (set above in `type`) of '1'
+            excludedType: 'group',
+            excludedSubject: 'a' // cannot match this person.group
+          }
+        ];
+
+        const a: Person[] = [
+          { name: '1' },
+          { name: '2' },
+          { name: '3', group: 'a' }
+        ];
+        const b: Person[] = [
+          { name: '1' },
+          { name: '3', group: 'a' },
+          { name: '2' }
+        ];
+        const c: Person[] = [
+          { name: '2' },
+          { name: '1' },
+          { name: '3', group: 'a' }
+        ];
+        const d: Person[] = [
+          { name: '2' },
+          { name: '3', group: 'a' },
+          { name: '1' }
+        ];
+        const e: Person[] = [
+          { name: '3', group: 'a' },
+          { name: '1' },
+          { name: '2' }
+        ];
+        const f: Person[] = [
+          { name: '3', group: 'a' },
+          { name: '2' },
+          { name: '1' }
+        ];
+        expect(validateMatches(input, a, exclusions)).toBeFalsy();
+        expect(validateMatches(input, b, exclusions)).toBeFalsy();
+        expect(validateMatches(input, c, exclusions)).toBeFalsy();
+        expect(validateMatches(input, d, exclusions)).toBeTruthy();
+        expect(validateMatches(input, e, exclusions)).toBeFalsy();
         expect(validateMatches(input, f, exclusions)).toBeFalsy();
       });
     });
@@ -274,12 +330,14 @@ describe('derange', () => {
         {
           type: 'name',
           subject: '2',
-          value: '1'
+          excludedType: 'name',
+          excludedSubject: '1'
         },
         {
           type: 'name',
           subject: '1',
-          value: '2'
+          excludedType: 'name',
+          excludedSubject: '2'
         }
       ];
 
@@ -293,7 +351,8 @@ describe('derange', () => {
         {
           type: 'name',
           subject: '2',
-          value: '1'
+          excludedType: 'name',
+          excludedSubject: '1'
         }
       ];
 
@@ -314,12 +373,14 @@ describe('derange', () => {
         {
           type: 'name',
           subject: '2',
-          value: '1'
+          excludedType: 'name',
+          excludedSubject: '1'
         },
         {
           type: 'name',
           subject: '1',
-          value: '2'
+          excludedType: 'name',
+          excludedSubject: '2'
         }
       ];
       try {

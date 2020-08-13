@@ -26,8 +26,10 @@ export const validateMatches: ValidateMatches = (
       exclusions
         // filter to exclusions of subjects that match pA
         .filter(exclusion => pA[exclusion.type] === exclusion.subject)
-        // reject pB if the name equals the exclusion value
-        .every(exclusion => pB.name !== exclusion.value)
+        // reject pB if they have an excludedType of excludedValue
+        .every(
+          exclusion => pB[exclusion.excludedType] !== exclusion.excludedSubject
+        )
     );
   });
 };
