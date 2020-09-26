@@ -18,26 +18,44 @@
   "module": "dist/gift-exchange.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
     "test:coverage": "tsdx test --coverage",
-    "lint": "tsdx lint --fix",
-    "prepare": "tsdx build"
+    "lint": "tsdx lint --fix src test",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
   },
   "dependencies": {},
   "devDependencies": {
-    "husky": "^4.2.5",
-    "tsdx": "^0.13.3",
+    "@size-limit/preset-small-lib": "^4.6.0",
+    "husky": "^4.3.0",
+    "size-limit": "^4.6.0",
+    "tsdx": "^0.14.0",
     "tslib": "^2.0.1",
     "typescript": "^3.9.7"
   },
+  "size-limit": [
+    {
+      "path": "dist/gift-exchange.cjs.production.min.js",
+      "limit": "1.2 KB"
+    },
+    {
+      "path": "dist/gift-exchange.esm.js",
+      "limit": "1.2 KB"
+    }
+  ],
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "npm run lint"
     }
   },
   "prettier": {

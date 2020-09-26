@@ -2,15 +2,15 @@ name: CI
 on: [push]
 jobs:
   build:
-    name: Node ${{ matrix.node }}
+    name: Build, lint, and test on Node ${{ matrix.node }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node: [10, 12]
+        node: ['10.x', '12.x', '14.x']
 
     steps:
-      - name: Begin CI...
+      - name: Checkout repo
         uses: actions/checkout@v2
 
       - name: Use Node ${{ matrix.node }}
@@ -18,28 +18,14 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Use cached node_modules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: nodeModules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            nodeModules-
-
-      - name: Install dependencies
-        run: npm ci
-        env:
-          CI: true
+      - name: Install deps and build (with cache)
+        uses: bahmutov/npm-install@v1
 
       - name: Lint
         run: npm run lint
-        env:
-          CI: true
 
       - name: Test
-        run: npm run test -- --ci --coverage --maxWorkers=2
-        env:
-          CI: true
+        run: npm run test --ci --coverage --maxWorkers=2
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
@@ -48,5 +34,3 @@ jobs:
 
       - name: Build
         run: npm run build
-        env:
-          CI: true
