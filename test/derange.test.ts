@@ -349,6 +349,33 @@ describe('derange', () => {
       expect(() => derange(input, exclusions)).not.toBeValidDerangement(input);
     });
 
+    it('throws an error when an impossible combination is received with a custom timeout', () => {
+      const input = personArrayOfLength(3);
+      const exclusions: Exclusion[] = [
+        {
+          type: 'name',
+          subject: '2',
+          excludedType: 'name',
+          excludedSubject: '1'
+        },
+        {
+          type: 'name',
+          subject: '1',
+          excludedType: 'name',
+          excludedSubject: '2'
+        }
+      ];
+
+      const start = Date.now();
+
+      expect(() => derange(input, { exclusions, timeout: 10 })).toThrowError();
+      expect(() =>
+        derange(input, { exclusions, timeout: 10 })
+      ).not.toBeValidDerangement(input);
+
+      expect(Date.now() - start).toBeGreaterThanOrEqual(20);
+    });
+
     it('deranges with a name exclusion', () => {
       const input = personArrayOfLength(3);
       const exclusions: Exclusion[] = [
@@ -361,6 +388,20 @@ describe('derange', () => {
       ];
 
       expect(derange(input, exclusions)).toBeValidDerangement(input);
+    });
+
+    it('deranges with a name exclusion using object argument syntax', () => {
+      const input = personArrayOfLength(3);
+      const exclusions: Exclusion[] = [
+        {
+          type: 'name',
+          subject: '2',
+          excludedType: 'name',
+          excludedSubject: '1'
+        }
+      ];
+
+      expect(derange(input, { exclusions })).toBeValidDerangement(input);
     });
 
     it('deranges with a group exclusion', () => {

@@ -33,12 +33,28 @@ export const validateMatches: ValidateMatches = (
   });
 };
 
-export const derange = (
+export function derange(people: Person[], exclusions?: Exclusion[]): Person[];
+export function derange(
   people: Person[],
-  exclusions: Exclusion[] = []
-): Person[] => {
+  options?: { exclusions?: Exclusion[]; timeout?: number }
+): Person[];
+
+export function derange(
+  people: Person[],
+  exclusionsOrOptions?:
+    | { exclusions?: Exclusion[]; timeout?: number }
+    | Exclusion[]
+): Person[] {
   if (people.length < 2) {
     return people.slice(0);
+  }
+  let exclusions: Exclusion[];
+  let timeout = 1000;
+  if (Array.isArray(exclusionsOrOptions)) {
+    exclusions = exclusionsOrOptions;
+  } else {
+    exclusions = exclusionsOrOptions?.exclusions ?? [];
+    timeout = exclusionsOrOptions?.timeout ?? 1000;
   }
 
   let buffer1: Person[] = [];
@@ -57,7 +73,7 @@ export const derange = (
   const startTime = Date.now();
   const testDerangement: ValidateMatches = (...args): boolean => {
     // prevent infinite loops when no combination is found
-    if (Date.now() - startTime > 1e3)
+    if (Date.now() - startTime > timeout)
       throw new DerangementError('No derangement found');
     return validateMatches(...args);
   };
@@ -72,17 +88,27 @@ export const derange = (
     const personIndex = buffer1.findIndex(match => match.name === p.name);
     return buffer2[personIndex];
   });
-};
+}
 
-export const calculate = (
+export function calculate(people: Person[], exclusions?: Exclusion[]): Promise<Person[]>;
+export function calculate(
   people: Person[],
-  exclusions: Exclusion[] = []
-): Promise<Person[]> => {
+  options?: { exclusions?: Exclusion[]; timeout?: number }
+): Promise<Person[]>;
+/**
+ * @deprecated
+ * This is thread blocking, even when in wrapped in a Promise
+ * A better non-blocking approach would be to wrap the call in a WebWorker
+ */
+export function calculate(
+  people: Person[],
+  exclusionsOrOptions?: any
+): Promise<Person[]> {
   return new Promise((resolve, reject) => {
     try {
-      resolve(derange(people, exclusions));
+      resolve(derange(people, exclusionsOrOptions));
     } catch (e) {
       reject(e);
     }
   });
-};
+}
