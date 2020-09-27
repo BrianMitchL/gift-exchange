@@ -17,13 +17,14 @@ npm i gift-exchange
 The library ships CommonJS, ES module, and UMD builds. The UMD build makes the
 library available with the `GiftExchange` name.
 
-`gift-exchange` exports two functions (`calculate` and `calculateSync`) and an
-Error, `DerangementError`.
+`gift-exchange` exports two functions (`calculateSync` and `calculate`
+(deprecated)) and an Error, `DerangementError`.
 
 A `Person` array is always required. A `Person` must have a unique `name` and
 optionally a `group`. A `Person` cannot be matched with another person in the
 same `group` nor with themselves. A mix of people that both have and do not
-have a `group` is supported.
+have a `group` is supported. Additional exclusion logic can be configured with
+[Exclusions](#exclusions).
 
 ```typescript
 import { Person } from 'gift-exchange';
@@ -39,39 +40,27 @@ const people: Person[] = [
 ];
 ```
 
-### `calculate`
-
-This returns a Promise that resolves with a new array of people or
-rejects with a `DerangementError`. This error is thrown if the matching
-algorithm fails to find a valid match after 1 second, indicating that an
-impossible combination of people and exclusions was provided.
-
-```typescript
-import { calculate, Person } from 'gift-exchange';
-
-const people: Person[] = [
-  {
-    name: 'Brian'
-  },
-  {
-    name: 'Freja'
-  }
-];
-
-calculate(people).then(matches => {
-  const pairs: { from: string; to: string }[] = people.map((person, i) => ({
-    from: person.name,
-    to: matches[i].name
-  }));
-  console.table(pairs);
-});
-```
-
 ### `calculateSync`
 
-This returns a new array of people or throws a `DerangementError` if
-the matching algorithm fails to find a valid match after 1 second, indicating
-that an impossible combination of people and exclusions was provided.
+```typescript
+function calculateSync(
+  people: Person[],
+  exclusions?: Exclusion[]
+): Person[];
+// or
+function calculateSync(
+  people: Person[],
+  // timeout in ms
+  options?: { exclusions?: Exclusion[], timeout?: number }
+): Person[];
+```
+
+This returns a new `Person` array or throws a `DerangementError` if
+the matching algorithm fails to find a valid match after 1 second (or custom
+timeout, if provided), indicating that an impossible combination of people and
+exclusions was provided. If given an impossible configuration or one with few
+possible matches, and many people, this will block the thread. To avoid this,
+it is recommended to run the script in a WebWorker.
 
 ```typescript
 import { calculateSync, Person } from 'gift-exchange';
@@ -97,9 +86,39 @@ try {
 }
 ```
 
+### `calculate` (deprecated)
+
+**Using a `Promise` is straightforward and still thread blocking, so this will
+be removed in the next major version.**
+
+This function takes the same arguments as `calculateSync`, but returns a
+`Promise` resolved with the `Person` array, or rejected with the
+`DerangementError`.
+
+```typescript
+import { calculate, Person } from 'gift-exchange';
+
+const people: Person[] = [
+  {
+    name: 'Brian'
+  },
+  {
+    name: 'Freja'
+  }
+];
+
+calculate(people).then(matches => {
+  const pairs: { from: string; to: string }[] = people.map((person, i) => ({
+    from: person.name,
+    to: matches[i].name
+  }));
+  console.table(pairs);
+});
+```
+
 ### Exclusions
 
-The `calculate` and `calculateSync` functions can also be called with a second
+The `calculateSync` and `calculate` functions can also be called with a second
 argument `exclusions`. This builds upon the concept that no person can match
 another in the same group.
 
