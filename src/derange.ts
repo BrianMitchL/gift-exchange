@@ -74,7 +74,7 @@ export const derange = (
   });
 };
 
-export const calculate = async (
+export const calculate = (
   people: Person[],
   exclusions: Exclusion[] = []
 ): Promise<Person[]> => {

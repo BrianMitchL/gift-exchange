@@ -14,6 +14,9 @@ npm i gift-exchange
 
 ## Usage
 
+The library ships CommonJS, ES module, and UMD builds. The UMD build makes the
+library available with the `GiftExchange` name.
+
 `gift-exchange` exports two functions (`calculate` and `calculateSync`) and an
 Error, `DerangementError`.
 

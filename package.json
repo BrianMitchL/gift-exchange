@@ -18,26 +18,50 @@
   "module": "dist/gift-exchange.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
+    "start": "tsdx watch --format esm,cjs,umd",
+    "build": "tsdx build --name GiftExchange --format umd --entry src/index.ts && rimraf umd-dist/ && ncp dist/ umd-dist && tsdx build --entry src/index.ts && ncp umd-dist/ dist --filter=gift-exchange.umd",
     "test": "tsdx test",
     "test:coverage": "tsdx test --coverage",
-    "lint": "tsdx lint --fix",
-    "prepare": "tsdx build"
+    "lint": "tsdx lint --fix src test",
+    "prepare": "npm run build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
   },
   "dependencies": {},
   "devDependencies": {
-    "husky": "^4.2.5",
-    "tsdx": "^0.13.3",
+    "@size-limit/preset-small-lib": "^4.6.0",
+    "husky": "^4.3.0",
+    "ncp": "^2.0.0",
+    "rimraf": "^3.0.2",
+    "size-limit": "^4.6.0",
+    "tsdx": "^0.14.0",
     "tslib": "^2.0.1",
     "typescript": "^3.9.7"
   },
+  "size-limit": [
+    {
+      "path": "dist/gift-exchange.cjs.production.min.js",
+      "limit": "1.2 KB"
+    },
+    {
+      "path": "dist/gift-exchange.esm.js",
+      "limit": "1.2 KB"
+    },
+    {
+      "path": "dist/gift-exchange.umd.production.min.js",
+      "limit": "1.2 KB"
+    }
+  ],
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "npm run lint"
     }
   },
   "prettier": {
