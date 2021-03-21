@@ -5,4 +5,3 @@ node_modules
 .rts2*
 dist
 coverage
-umd-dist

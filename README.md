@@ -17,8 +17,19 @@ npm i gift-exchange
 The library ships CommonJS, ES module, and UMD builds. The UMD build makes the
 library available with the `GiftExchange` name.
 
-`gift-exchange` exports two functions (`calculateSync` and `calculate`
-(deprecated)) and an Error, `DerangementError`.
+### `calculate`
+
+```typescript
+function calculate(people: Person[], exclusions?: Exclusion[]): Person[];
+// or
+function calculate(
+  people: Person[],
+  options?: {
+    exclusions?: Exclusion[];
+    timeout?: number;
+  }
+): Person[];
+```
 
 A `Person` array is always required. A `Person` must have a unique `name` and
 optionally a `group`. A `Person` cannot be matched with another person in the
@@ -26,74 +37,12 @@ same `group` nor with themselves. A mix of people that both have and do not
 have a `group` is supported. Additional exclusion logic can be configured with
 [Exclusions](#exclusions).
 
-```typescript
-import { Person } from 'gift-exchange';
-
-const people: Person[] = [
-  {
-    name: 'Brian',
-    group: 'Mitchell'
-  },
-  {
-    name: 'Freja'
-  }
-];
-```
-
-### `calculateSync`
-
-```typescript
-function calculateSync(
-  people: Person[],
-  exclusions?: Exclusion[]
-): Person[];
-// or
-function calculateSync(
-  people: Person[],
-  // timeout in ms
-  options?: { exclusions?: Exclusion[], timeout?: number }
-): Person[];
-```
-
-This returns a new `Person` array or throws a `DerangementError` if
+`calculate` returns a new `Person` array or throws an Error if
 the matching algorithm fails to find a valid match after 1 second (or custom
 timeout, if provided), indicating that an impossible combination of people and
 exclusions was provided. If given an impossible configuration or one with few
 possible matches, and many people, this will block the thread. To avoid this,
 it is recommended to run the script in a WebWorker.
-
-```typescript
-import { calculateSync, Person } from 'gift-exchange';
-
-const people: Person[] = [
-  {
-    name: 'Brian'
-  },
-  {
-    name: 'Freja'
-  }
-];
-
-try {
-  const matches = calculateSync(people);
-  const pairs: { from: string; to: string }[] = people.map((person, i) => ({
-    from: person.name,
-    to: matches[i].name
-  }));
-  console.table(pairs);
-} catch (e) {
-  console.error(e);
-}
-```
-
-### `calculate` (deprecated)
-
-**Using a `Promise` is straightforward and still thread blocking, so this will
-be removed in the next major version.**
-
-This function takes the same arguments as `calculateSync`, but returns a
-`Promise` resolved with the `Person` array, or rejected with the
-`DerangementError`.
 
 ```typescript
 import { calculate, Person } from 'gift-exchange';
@@ -107,25 +56,38 @@ const people: Person[] = [
   }
 ];
 
-calculate(people).then(matches => {
+try {
+  const matches = calculate(people);
   const pairs: { from: string; to: string }[] = people.map((person, i) => ({
     from: person.name,
     to: matches[i].name
   }));
   console.table(pairs);
-});
+} catch (e) {
+  console.error(e);
+}
 ```
+
+### `validateMatches`
+
+```typescript
+validateMatches(a: Person[], b: Person[], exclusions?: Exclusion[]): boolean;
+```
+
+This is an internal helper function that validates that two `Person` arrays
+and an optional `Exclusion` array are valid matches where no person is matched
+with themselves, in the same group, or violating any exclusions. This could
+be helpful if you are creating your own implementation.
 
 ### Exclusions
 
-The `calculateSync` and `calculate` functions can also be called with a second
-argument `exclusions`. This builds upon the concept that no person can match
-another in the same group.
+Exclusions build beyond the existing concept that no person can match another
+in the same group.
 
 Exclusions are single directional. Use the `type` and `subject` properties to
-select a base Person or group of Persons. Then select an `excludedType` and
-`excludedSubject` to select the Person or group of Persons that the previously
-selected Person/group of Persons cannot be matched with.
+select a base Person or group of Persons (base selection). Then select an
+`excludedType` and `excludedSubject` to select the Person or group of Persons
+that the base selection cannot be matched with.
 
 The There are two exclusion types, one of type `name` and one of type
 `group`. The `type` refers to a key on the `Person` interface. The `subject` is
