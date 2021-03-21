@@ -22,10 +22,13 @@ library available with the `GiftExchange` name.
 ```typescript
 function calculate(people: Person[], exclusions?: Exclusion[]): Person[];
 // or
-function calculate(people: Person[], options?: {
-  exclusions?: Exclusion[];
-  timeout?: number;
-}): Person[];
+function calculate(
+  people: Person[],
+  options?: {
+    exclusions?: Exclusion[];
+    timeout?: number;
+  }
+): Person[];
 ```
 
 A `Person` array is always required. A `Person` must have a unique `name` and

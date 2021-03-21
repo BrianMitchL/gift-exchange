@@ -1,11 +1,6 @@
 // @ts-ignore
 import './to-be-valid-derangement';
-import {
-  calculate,
-  validateMatches,
-  Exclusion,
-  Person
-} from '../src';
+import { calculate, validateMatches, Exclusion, Person } from '../src';
 
 const personArrayOfLength = (length: number): Person[] =>
   new Array(length).fill(true).map((_, i) => ({ name: '' + (i + 1) }));
