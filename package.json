@@ -16,6 +16,10 @@
   },
   "main": "dist/index.js",
   "module": "dist/giftexchange.esm.js",
+  "exports": {
+    "import": "./dist/giftexchange.esm.js",
+    "require": "./dist/index.js"
+  },
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
