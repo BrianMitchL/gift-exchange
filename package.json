@@ -39,11 +39,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.1",
-    "simple-git-hooks": "^2.5.1",
-    "size-limit": "^5.0.1",
+    "@size-limit/preset-small-lib": "^5.0.5",
+    "simple-git-hooks": "^2.6.1",
+    "size-limit": "^5.0.5",
     "tsdx": "^0.14.1",
-    "tslib": "^2.3.0",
+    "tslib": "^2.3.1",
     "typescript": "^3.9.9"
   },
   "size-limit": [
