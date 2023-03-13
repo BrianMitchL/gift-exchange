@@ -32,7 +32,7 @@ export interface Exclusion {
   excludedSubject: string;
 }
 
-function shuffle<T = any>(array: T[]) {
+function shuffle<T = unknown>(array: T[]) {
   let i = array.length;
   let j;
 
@@ -66,10 +66,11 @@ export function validateMatches(
     return (
       exclusions
         // filter to exclusions of subjects that match pA
-        .filter(exclusion => pA[exclusion.type] === exclusion.subject)
+        .filter((exclusion) => pA[exclusion.type] === exclusion.subject)
         // reject pB if they have an excludedType of excludedValue
         .every(
-          exclusion => pB[exclusion.excludedType] !== exclusion.excludedSubject
+          (exclusion) =>
+            pB[exclusion.excludedType] !== exclusion.excludedSubject
         )
     );
   });
@@ -104,11 +105,14 @@ export function calculate(
 
   // https://www.youtube.com/watch?v=5kC5k5QBqcc
   const shuffleAndSlide = () => {
-    const shuffled = shuffle([...people]);
+    const shuffled = shuffle(people.slice());
     buffer1 = shuffled.slice(0);
     buffer2 = shuffled.slice(0);
 
-    // slide each element over by one on buffer2
+    // slide each element over by one on buffer2.
+    // we check the people array before this, and are mutating buffers for
+    // performance, so it is safe to use a non-null assertion here.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     buffer2.push(buffer2.shift()!);
   };
 
@@ -116,8 +120,8 @@ export function calculate(
   const testDerangement: typeof validateMatches = (...args) => {
     // prevent infinite loops when no combination is found
     if (Date.now() - startTime > timeout) {
-      const error = new Error('No combinations found');
-      error.name = 'GiftExchangeError';
+      const error = new Error("No combinations found");
+      error.name = "GiftExchangeError";
       throw error;
     }
     return validateMatches(...args);
@@ -129,8 +133,8 @@ export function calculate(
   }
 
   // map back to the order of the given person argument
-  return people.map(p => {
-    const personIndex = buffer1.findIndex(match => match.name === p.name);
+  return people.map((p) => {
+    const personIndex = buffer1.findIndex((match) => match.name === p.name);
     return buffer2[personIndex];
   });
 }
