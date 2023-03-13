@@ -32,7 +32,7 @@ export interface Exclusion {
   excludedSubject: string;
 }
 
-function shuffle<T = any>(array: T[]) {
+function shuffle<T = unknown>(array: T[]) {
   let i = array.length;
   let j;
 
@@ -104,11 +104,14 @@ export function calculate(
 
   // https://www.youtube.com/watch?v=5kC5k5QBqcc
   const shuffleAndSlide = () => {
-    const shuffled = shuffle([...people]);
+    const shuffled = shuffle(people.slice());
     buffer1 = shuffled.slice(0);
     buffer2 = shuffled.slice(0);
 
-    // slide each element over by one on buffer2
+    // slide each element over by one on buffer2.
+    // we check the people array before this, and are mutating buffers for
+    // performance, so it is safe to use a non-null assertion here.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     buffer2.push(buffer2.shift()!);
   };
 

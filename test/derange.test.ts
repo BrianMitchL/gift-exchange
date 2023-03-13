@@ -1,3 +1,6 @@
+import { describe, expect, it } from 'vitest';
+// I'm not sure how to configure TypeScript in a way that works with this
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import './to-be-valid-derangement';
 import { calculate, validateMatches, Exclusion, Person } from '../src';

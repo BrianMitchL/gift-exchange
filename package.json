@@ -14,54 +14,60 @@
     "type": "git",
     "url": "https://github.com/BrianMitchL/gift-exchange.git"
   },
-  "main": "dist/index.js",
+  "main": "dist/giftexchange.cjs.js",
   "module": "dist/giftexchange.esm.js",
   "exports": {
-    "import": "./dist/giftexchange.esm.js",
-    "require": "./dist/index.js"
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/giftexchange.esm.js",
+      "require": "./dist/giftexchange.cjs.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "scripts": {
-    "start": "tsdx watch --format esm,cjs,umd",
-    "build": "tsdx build --name GiftExchange --format esm,cjs,umd",
-    "test": "tsdx test",
-    "test:coverage": "tsdx test --coverage",
-    "lint": "tsdx lint --fix src test",
-    "prepare": "npm test && npm run build",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
+    "start": "rollup -c rollup.config.mjs --watch",
+    "build": "rollup -c rollup.config.mjs",
+    "lint": "eslint \"**/*.ts\"",
+    "prebuild": "rimraf dist",
+    "prettier": "prettier \"**/*.{js,mjs,ts,md,yml}\"",
+    "pretty-quick": "pretty-quick --staged",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.5",
-    "simple-git-hooks": "^2.6.1",
-    "size-limit": "^5.0.5",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.1",
-    "typescript": "^3.9.9"
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@types/node": "^18.15.0",
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "@typescript-eslint/parser": "^5.54.1",
+    "@vitest/coverage-c8": "^0.29.2",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.7.0",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.2",
+    "rimraf": "^4.4.0",
+    "rollup": "^3.19.1",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "simple-git-hooks": "^2.8.1",
+    "typescript": "^4.9.5",
+    "vitest": "^0.29.2"
   },
-  "size-limit": [
-    {
-      "path": "dist/giftexchange.cjs.production.min.js",
-      "limit": "0.5 KB"
-    },
-    {
-      "path": "dist/giftexchange.esm.js",
-      "limit": "0.5 KB"
-    },
-    {
-      "path": "dist/giftexchange.umd.production.min.js",
-      "limit": "0.5 KB"
-    }
-  ],
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ]
+  },
   "simple-git-hooks": {
-    "pre-commit": "npm run lint"
+    "pre-commit": "npm run pretty-quick"
   },
   "prettier": {
     "singleQuote": true

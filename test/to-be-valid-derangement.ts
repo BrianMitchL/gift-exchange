@@ -1,12 +1,18 @@
+import { expect } from 'vitest';
 import { Exclusion, Person } from '../src';
 
+interface CustomMatchers<R = unknown> {
+  toBeValidDerangement(base: Person[], exclusions?: Exclusion[]): R;
+}
+
+/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-interface */
 declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toBeValidDerangement(base: Person[], exclusions?: Exclusion[]): R;
-    }
+  namespace Vi {
+    interface Assertion extends CustomMatchers {}
+    interface AsymmetricMatchersContaining extends CustomMatchers {}
   }
 }
+/* eslint-enable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-interface */
 
 expect.extend({
   toBeValidDerangement(
@@ -96,7 +102,7 @@ expect.extend({
         return testDerangement(_());
       } catch (e) {
         return {
-          message: () => e,
+          message: () => (e instanceof Error ? e.message : String(e)),
           pass: false
         };
       }
