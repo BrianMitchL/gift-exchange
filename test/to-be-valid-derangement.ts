@@ -1,5 +1,5 @@
-import { expect } from 'vitest';
-import { Exclusion, Person } from '../src';
+import { expect } from "vitest";
+import { Exclusion, Person } from "../src";
 
 interface CustomMatchers<R = unknown> {
   toBeValidDerangement(base: Person[], exclusions?: Exclusion[]): R;
@@ -25,26 +25,26 @@ expect.extend({
         return {
           message: () =>
             `the tested value and base value cannot be the same object`,
-          pass: false
+          pass: false,
         };
 
       if (!Array.isArray(received) || !Array.isArray(base))
         return {
           message: () => `the tested value and base value must be an array`,
-          pass: false
+          pass: false,
         };
 
       if (received.length !== base.length)
         return {
           message: () =>
             `the tested value must have the same length as the base array`,
-          pass: false
+          pass: false,
         };
 
       if (received.length > 1 && this.equals(received, base))
         return {
           message: () => `the tested value cannot equal the base value`,
-          pass: false
+          pass: false,
         };
 
       if (
@@ -56,7 +56,7 @@ expect.extend({
       )
         return {
           message: () => `someone is assigned themselves`,
-          pass: false
+          pass: false,
         };
 
       if (
@@ -69,7 +69,7 @@ expect.extend({
         return {
           message: () =>
             `someone is assigned a person in the same group as themselves`,
-          pass: false
+          pass: false,
         };
 
       if (
@@ -77,9 +77,9 @@ expect.extend({
           const pB = base[i];
 
           return exclusions
-            .filter(exclusion => pA[exclusion.type] === exclusion.subject)
+            .filter((exclusion) => pA[exclusion.type] === exclusion.subject)
             .some(
-              exclusion =>
+              (exclusion) =>
                 pB[exclusion.excludedType] !== exclusion.excludedSubject
             );
         })
@@ -87,27 +87,27 @@ expect.extend({
         return {
           message: () =>
             `a match is present that does not conform to an exclusion`,
-          pass: false
+          pass: false,
         };
       }
       return {
         message: () =>
           `the test array is a valid derangement of the given base array`,
-        pass: true
+        pass: true,
       };
     };
 
-    if (typeof _ === 'function') {
+    if (typeof _ === "function") {
       try {
         return testDerangement(_());
       } catch (e) {
         return {
           message: () => (e instanceof Error ? e.message : String(e)),
-          pass: false
+          pass: false,
         };
       }
     } else {
       return testDerangement(_);
     }
-  }
+  },
 });

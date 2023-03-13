@@ -45,22 +45,22 @@ possible matches, and many people, this will block the thread. To avoid this,
 it is recommended to run the script in a WebWorker.
 
 ```typescript
-import { calculate, Person } from 'gift-exchange';
+import { calculate, Person } from "gift-exchange";
 
 const people: Person[] = [
   {
-    name: 'Brian'
+    name: "Brian",
   },
   {
-    name: 'Freja'
-  }
+    name: "Freja",
+  },
 ];
 
 try {
   const matches = calculate(people);
   const pairs: { from: string; to: string }[] = people.map((person, i) => ({
     from: person.name,
-    to: matches[i].name
+    to: matches[i].name,
   }));
   console.table(pairs);
 } catch (e) {
@@ -95,43 +95,43 @@ a selector for any number of people that have the given `type` equal to the
 `subject`.
 
 ```typescript
-import { Person, Exclusion } from 'gift-exchange';
+import { Person, Exclusion } from "gift-exchange";
 
 const people: Person[] = [
   {
-    name: 'Brian',
-    group: 'Mitchell'
+    name: "Brian",
+    group: "Mitchell",
   },
   {
-    name: 'Freja',
-    group: 'Andersen'
-  }
+    name: "Freja",
+    group: "Andersen",
+  },
 ];
 const exclusions: Exclusion[] = [
   // a person with the name "Brian" cannot be assigned to a person with the name
   // "Freja" (but "Freja" could still be assigned to "Brian")
   {
-    type: 'name',
-    subject: 'Brian',
-    excludedType: 'name',
-    excludedSubject: 'Freja'
+    type: "name",
+    subject: "Brian",
+    excludedType: "name",
+    excludedSubject: "Freja",
   },
   // anyone with the group "Andersen" cannot be assigned to a person with the
   // name "Brian"
   {
-    type: 'group',
-    subject: 'Andersen',
-    excludedType: 'name',
-    excludedSubject: 'Brian'
+    type: "group",
+    subject: "Andersen",
+    excludedType: "name",
+    excludedSubject: "Brian",
   },
   // anyone with the group "Andersen" cannot be assigned to a person with the
   // group "Mitchell"
   {
-    type: 'group',
-    subject: 'Andersen',
-    excludedType: 'group',
-    excludedSubject: 'Mitchell'
-  }
+    type: "group",
+    subject: "Andersen",
+    excludedType: "group",
+    excludedSubject: "Mitchell",
+  },
 ];
 ```
 

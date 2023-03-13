@@ -66,10 +66,11 @@ export function validateMatches(
     return (
       exclusions
         // filter to exclusions of subjects that match pA
-        .filter(exclusion => pA[exclusion.type] === exclusion.subject)
+        .filter((exclusion) => pA[exclusion.type] === exclusion.subject)
         // reject pB if they have an excludedType of excludedValue
         .every(
-          exclusion => pB[exclusion.excludedType] !== exclusion.excludedSubject
+          (exclusion) =>
+            pB[exclusion.excludedType] !== exclusion.excludedSubject
         )
     );
   });
@@ -119,8 +120,8 @@ export function calculate(
   const testDerangement: typeof validateMatches = (...args) => {
     // prevent infinite loops when no combination is found
     if (Date.now() - startTime > timeout) {
-      const error = new Error('No combinations found');
-      error.name = 'GiftExchangeError';
+      const error = new Error("No combinations found");
+      error.name = "GiftExchangeError";
       throw error;
     }
     return validateMatches(...args);
@@ -132,8 +133,8 @@ export function calculate(
   }
 
   // map back to the order of the given person argument
-  return people.map(p => {
-    const personIndex = buffer1.findIndex(match => match.name === p.name);
+  return people.map((p) => {
+    const personIndex = buffer1.findIndex((match) => match.name === p.name);
     return buffer2[personIndex];
   });
 }
