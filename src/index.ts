@@ -51,7 +51,7 @@ function shuffle<T = unknown>(array: T[]) {
 export function validateMatches(
   a: Person[],
   b: Person[],
-  exclusions: Exclusion[] = []
+  exclusions: Exclusion[] = [],
 ) {
   if (a.length !== b.length) return false;
 
@@ -70,23 +70,17 @@ export function validateMatches(
         // reject pB if they have an excludedType of excludedValue
         .every(
           (exclusion) =>
-            pB[exclusion.excludedType] !== exclusion.excludedSubject
+            pB[exclusion.excludedType] !== exclusion.excludedSubject,
         )
     );
   });
 }
 
-export function calculate(people: Person[], exclusions?: Exclusion[]): Person[];
-export function calculate(
-  people: Person[],
-  options?: { exclusions?: Exclusion[]; timeout?: number }
-): Person[];
-
 export function calculate(
   people: Person[],
   exclusionsOrOptions?:
     | { exclusions?: Exclusion[]; timeout?: number }
-    | Exclusion[]
+    | Exclusion[],
 ): Person[] {
   if (people.length < 2) {
     return people.slice(0);

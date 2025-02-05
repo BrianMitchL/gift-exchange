@@ -5,20 +5,20 @@ interface CustomMatchers<R = unknown> {
   toBeValidDerangement(base: Person[], exclusions?: Exclusion[]): R;
 }
 
-/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-object-type */
 declare global {
   namespace Vi {
     interface Assertion extends CustomMatchers {}
     interface AsymmetricMatchersContaining extends CustomMatchers {}
   }
 }
-/* eslint-enable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-interface */
+/* eslint-enable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-object-type */
 
 expect.extend({
   toBeValidDerangement(
     _: Person[] | (() => Person[]),
     base: Person[],
-    exclusions: Exclusion[] = []
+    exclusions: Exclusion[] = [],
   ) {
     const testDerangement = (received: Person[]) => {
       if (received === base)
@@ -80,7 +80,7 @@ expect.extend({
             .filter((exclusion) => pA[exclusion.type] === exclusion.subject)
             .some(
               (exclusion) =>
-                pB[exclusion.excludedType] !== exclusion.excludedSubject
+                pB[exclusion.excludedType] !== exclusion.excludedSubject,
             );
         })
       ) {
