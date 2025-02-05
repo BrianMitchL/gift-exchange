@@ -76,12 +76,6 @@ export function validateMatches(
   });
 }
 
-export function calculate(people: Person[], exclusions?: Exclusion[]): Person[];
-export function calculate(
-  people: Person[],
-  options?: { exclusions?: Exclusion[]; timeout?: number },
-): Person[];
-
 export function calculate(
   people: Person[],
   exclusionsOrOptions?:

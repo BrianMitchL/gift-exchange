@@ -5,14 +5,14 @@ interface CustomMatchers<R = unknown> {
   toBeValidDerangement(base: Person[], exclusions?: Exclusion[]): R;
 }
 
-/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type */
+/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-object-type */
 declare global {
   namespace Vi {
     interface Assertion extends CustomMatchers {}
     interface AsymmetricMatchersContaining extends CustomMatchers {}
   }
 }
-/* eslint-enable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-interface */
+/* eslint-enable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-object-type */
 
 expect.extend({
   toBeValidDerangement(
