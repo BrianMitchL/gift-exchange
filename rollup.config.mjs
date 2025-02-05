@@ -1,18 +1,15 @@
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "rollup";
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
-import ts from "typescript";
 
 const createConfig = (outputFormat, env = null) =>
   defineConfig({
     input: fileURLToPath(new URL("./src/index.ts", import.meta.url)),
     plugins: [
       nodeResolve(),
-      typescript({
-        typescript: ts,
-      }),
+      typescript(),
       env === "production" &&
         terser({
           output: { comments: false },
