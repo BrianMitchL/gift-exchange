@@ -27,7 +27,7 @@ function calculate(
   options?: {
     exclusions?: Exclusion[];
     timeout?: number;
-  }
+  },
 ): Person[];
 ```
 

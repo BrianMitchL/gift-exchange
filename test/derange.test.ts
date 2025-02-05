@@ -25,8 +25,8 @@ describe("validateMatches", () => {
     expect(
       validateMatches(
         [{ name: "1" }, { name: "2" }],
-        [{ name: "1" }, { name: "2" }]
-      )
+        [{ name: "1" }, { name: "2" }],
+      ),
     ).toBeFalsy();
   });
 
@@ -40,8 +40,8 @@ describe("validateMatches", () => {
         [
           { name: "2", group: "a" },
           { name: "1", group: "a" },
-        ]
-      )
+        ],
+      ),
     ).toBeFalsy();
   });
 
@@ -369,7 +369,7 @@ describe("calculate", () => {
 
     expect(() => calculate(input, { exclusions, timeout: 10 })).toThrowError();
     expect(() =>
-      calculate(input, { exclusions, timeout: 10 })
+      calculate(input, { exclusions, timeout: 10 }),
     ).not.toBeValidDerangement(input);
 
     expect(Date.now() - start).toBeGreaterThanOrEqual(20);

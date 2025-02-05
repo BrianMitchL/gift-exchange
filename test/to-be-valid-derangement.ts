@@ -18,7 +18,7 @@ expect.extend({
   toBeValidDerangement(
     _: Person[] | (() => Person[]),
     base: Person[],
-    exclusions: Exclusion[] = []
+    exclusions: Exclusion[] = [],
   ) {
     const testDerangement = (received: Person[]) => {
       if (received === base)
@@ -80,7 +80,7 @@ expect.extend({
             .filter((exclusion) => pA[exclusion.type] === exclusion.subject)
             .some(
               (exclusion) =>
-                pB[exclusion.excludedType] !== exclusion.excludedSubject
+                pB[exclusion.excludedType] !== exclusion.excludedSubject,
             );
         })
       ) {
