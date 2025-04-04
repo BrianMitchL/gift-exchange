@@ -1,6 +1,6 @@
 {
   "name": "gift-exchange",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "A utility to generate pairs of names for a gift exchange.",
   "keywords": [
     "gift",
