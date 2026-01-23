@@ -36,7 +36,7 @@
     "build": "rollup -c rollup.config.mjs",
     "lint": "eslint \"**/*.ts\"",
     "prebuild": "rimraf dist",
-    "prettier": "prettier \"**/*.{js,mjs,ts,md,yml}\"",
+    "prettier": "prettier --write \"**/*.{js,mjs,ts,md,yml}\"",
     "pretty-quick": "pretty-quick --staged",
     "test": "vitest",
     "test:coverage": "vitest --coverage"
